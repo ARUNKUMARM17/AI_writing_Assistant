@@ -15,7 +15,8 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "https://ai-writing-assistant-gamma.vercel.app" }));
+
 app.use(express.json());
 app.use(morgan('dev')); // Logs requests
 app.use(helmet()); // Security best practices
