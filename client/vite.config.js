@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(),tailwindcss()],
     server: {
       proxy: {
-        '/api': 'http://localhost:8000', // Redirect API calls to backend
+        '/api': 'https://ai-writing-assistant-adtn.onrender.com', // Redirect API calls to backend
       }
     }  
 

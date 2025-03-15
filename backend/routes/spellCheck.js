@@ -12,11 +12,15 @@ spellCheckRoute.post("/", async (req, res) => {
         temperature: 0.5,
         top_p: 1,
         max_tokens: 60,
-        n:3,
-        stream: false, // Ensure this is correctly used
+        n:1,
+        // stream: false, // Ensure this is correctly used
         messages: [
-          { role: "system", content: "You are a helpful assistant that checks and correct the spelling errors in following  sentences. Only return the correct rephrased sentences without any additional comments or context." },
-          { role: "user", content: words},
+          { role: "system", content: "You are a professional spelling and grammar correction assistant. Given a sentence, return only the corrected version as a single, well-formatted sentence. Do not repeat the same correction multiple times, add explanations, or include extra formatting. Your response should only contain the final corrected sentence."
+
+
+
+},
+          { role: "user", content:`Give the gramaticallt correct ${words}` },
         ],
       },
       {
@@ -27,7 +31,7 @@ spellCheckRoute.post("/", async (req, res) => {
       }
     );
 
-    const correctwords = response.data.choices[0].message.content;
+    const correctwords = response.data.choices[0].message.content.trim();
 
     res.status(200).json({ correctwords });
   } catch (error) {
