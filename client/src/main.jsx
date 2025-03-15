@@ -1,10 +1,34 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { PrivyProvider } from "@privy-io/react-auth";
+import { Provider } from "react-redux";
+import App from "./App";
+import { store } from "./redux/store";
+import "./index.css";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <PrivyProvider
+        appId="cm8ahplt201s345qhaxz3seoa"
+        config={{
+          // Display email and wallet as login methods
+          loginMethods: ["email", "wallet", "sms", "google", "github", "apple"],
+          // Customize Privy's appearance in your app
+          appearance: {
+            theme: "light",
+            accentColor: "#676FFF",
+            logo: "https://res.cloudinary.com/tweneboah/image/upload/v1724251495/Masynctech_Logo_3_rzmg8h.png",
+          },
+          // Create embedded wallets for users who don't have a wallet
+          embeddedWallets: {
+            createOnLogin: "users-without-wallets",
+          },
+        }}
+      >
+        <App />
+      </PrivyProvider>
+    </Provider>
+  </React.StrictMode>
+);
