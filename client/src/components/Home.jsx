@@ -66,8 +66,7 @@ const Home = () => {
 
       <footer className="bg-gray-800 text-white py-8 text-center">
         <p>
-          ErrorFree ©{new Date().getFullYear()} | Powered by
-          Masynctech Coding School
+          ErrorFree ©{new Date().getFullYear()}         
         </p>
       </footer>
     </div>
