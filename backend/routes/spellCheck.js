@@ -20,7 +20,7 @@ spellCheckRoute.post("/", async (req, res) => {
 
 
 },
-          { role: "user", content:`Give the gramaticallt correct ${words}` },
+          { role: "user", content:`Give the  correct spelling of ${words}` },
         ],
       },
       {

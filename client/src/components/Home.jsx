@@ -2,6 +2,7 @@ import React from "react";
 import { FaPencilAlt, FaSpellCheck, FaSyncAlt } from "react-icons/fa";
 import ai from "../images/ai.png";
 import { Link } from "react-router-dom";
+
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -11,7 +12,7 @@ const Home = () => {
           <div className="container mx-auto flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Elevate Your Writing with AI
+                Elevate Your Writing with ErrorFree
               </h2>
               <p className="text-xl mb-8">
                 Unleash the power of artificial intelligence to perfect your
@@ -65,7 +66,7 @@ const Home = () => {
 
       <footer className="bg-gray-800 text-white py-8 text-center">
         <p>
-          AI Writing Assistant ©{new Date().getFullYear()} | Powered by
+          ErrorFree ©{new Date().getFullYear()} | Powered by
           Masynctech Coding School
         </p>
       </footer>

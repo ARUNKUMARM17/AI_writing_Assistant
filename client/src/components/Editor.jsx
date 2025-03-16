@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Login from "./Login";
 import { FaSpellCheck, FaSyncAlt, FaCheck, FaPencilAlt } from "react-icons/fa";
-import { SiGrammarly } from "react-icons/si";
+
 const Editor = () => {
   const [text, setText] = useState("");
   const [selectedSentence, setSelectedSentence] = useState("");
   const [rephrasedSentences, setRephrasedSentences] = useState([]);
   const [correctedSentences, setCorrectedSentences] = useState([]);
-  const [spellCheckedText, setSpellCheckedText] = useState("");
-  const [grammarCheckedText, setGrammarCheckedText] = useState("");
+  const [ErrorFreeText, setErrorFreeText] = useState("");
 
   const handleTextChange = (e) => setText(e.target.value);
 
@@ -19,41 +17,29 @@ const Editor = () => {
   };
 
   const rephraseSentence = async () => {
+    if (!selectedSentence) return;
     try {
       const response = await axios.post("https://ai-writing-assistant-adtn.onrender.com/analyze", {
         sentence: selectedSentence,
       });
-      setRephrasedSentences(response.data.rephrasedSentences);
+      setRephrasedSentences([response.data.rephrasedSentence]);
     } catch (error) {
       console.error("Error rephrasing sentence:", error);
     }
   };
 
   const addCorrectedSentence = (sentence) => {
-    setCorrectedSentences([...correctedSentences, sentence]);
+    if (sentence) setCorrectedSentences([...correctedSentences, sentence]);
   };
 
   const checkSpelling = async () => {
     try {
-      const response = await axios.post(
-        "https://ai-writing-assistant-adtn.onrender.com/spellcheck",
-        { text }
-      );
-      setSpellCheckedText(response.data.correctedText);
+      const response = await axios.post("https://ai-writing-assistant-adtn.onrender.com/spellcheck", {
+        words: text,
+      });
+      setErrorFreeText(response.data.correctwords || "");
     } catch (error) {
       console.error("Error checking spelling:", error);
-    }
-  };
-
-  const checkGrammar = async () => {
-    try {
-      const response = await axios.post(
-        "https://ai-writing-assistant-adtn.onrender.com/grammarcheck",
-        { text }
-      );
-      setGrammarCheckedText(response.data.correctedText);
-    } catch (error) {
-      console.error("Error checking grammar:", error);
     }
   };
 
@@ -77,29 +63,16 @@ const Editor = () => {
               className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
             <div className="flex justify-end mt-4 space-x-4">
-              <Button onClick={checkSpelling} icon={<FaSpellCheck />}>
-                Check Spelling
-              </Button>
-              <Button onClick={checkGrammar} icon={<SiGrammarly />}>
-                Check Grammar
-              </Button>
+              <Button onClick={checkSpelling} icon={<FaSpellCheck />}>ErrorFree</Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <ResultSection
-              title="Spell Checked Text"
-              text={spellCheckedText}
-              onAccept={() => addCorrectedSentence(spellCheckedText)}
-              icon={<FaSpellCheck className="text-green-500" />}
-            />
-            <ResultSection
-              title="Grammar Checked Text"
-              text={grammarCheckedText}
-              onAccept={() => addCorrectedSentence(grammarCheckedText)}
-              icon={<SiGrammarly className="text-blue-500" />}
-            />
-          </div>
+          <ResultSection
+            title="Error Free Text"
+            text={ErrorFreeText}
+            onAccept={() => addCorrectedSentence(ErrorFreeText)}
+            icon={<FaSpellCheck className="text-green-500" />}
+          />
 
           {selectedSentence && (
             <div className="bg-white shadow-lg rounded-lg p-6 my-8">
@@ -108,9 +81,7 @@ const Editor = () => {
                 Selected Sentence:
               </h3>
               <p className="mb-4">{selectedSentence}</p>
-              <Button onClick={rephraseSentence} icon={<FaSyncAlt />}>
-                Rephrase
-              </Button>
+              <Button onClick={rephraseSentence} icon={<FaSyncAlt />}>Rephrase</Button>
             </div>
           )}
 
@@ -121,17 +92,9 @@ const Editor = () => {
                 Rephrased Sentences:
               </h3>
               {rephrasedSentences.map((sentence, index) => (
-                <div
-                  key={index}
-                  className="mb-4 pb-4 border-b border-gray-200 last:border-b-0"
-                >
+                <div key={index} className="mb-4 pb-4 border-b border-gray-200 last:border-b-0">
                   <p className="mb-2">{sentence}</p>
-                  <Button
-                    onClick={() => addCorrectedSentence(sentence)}
-                    icon={<FaCheck />}
-                  >
-                    Accept
-                  </Button>
+                  <Button onClick={() => addCorrectedSentence(sentence)} icon={<FaCheck />}>Accept</Button>
                 </div>
               ))}
             </div>
@@ -149,17 +112,12 @@ const Editor = () => {
             </p>
             {correctedSentences.length > 0 ? (
               correctedSentences.map((sentence, index) => (
-                <div
-                  key={index}
-                  className="mb-2 pb-2 border-b border-gray-200 last:border-b-0"
-                >
+                <div key={index} className="mb-2 pb-2 border-b border-gray-200 last:border-b-0">
                   <p>{sentence}</p>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 italic">
-                No corrected sentences yet.
-              </p>
+              <p className="text-gray-500 italic">No corrected sentences yet.</p>
             )}
           </div>
         </div>
@@ -179,17 +137,15 @@ const Button = ({ onClick, children, icon }) => (
 );
 
 const ResultSection = ({ title, text, onAccept, icon }) =>
-  text && (
+  text ? (
     <div className="bg-white shadow-lg rounded-lg p-6">
       <h3 className="text-xl font-semibold mb-4 flex items-center">
         {icon}
         <span className="ml-2">{title}</span>
       </h3>
       <p className="mb-4">{text}</p>
-      <Button onClick={onAccept} icon={<FaCheck />}>
-        Accept
-      </Button>
+      <Button onClick={onAccept} icon={<FaCheck />}>Accept</Button>
     </div>
-  );
+  ) : null;
 
 export default Editor;

@@ -15,11 +15,11 @@ analyzeRoute.post("/", async (req, res) => {
       "https://api.mistral.ai/v1/chat/completions",
       {
         model: "mistral-small-latest",
-        temperature: 0.7, // Keeps sentences natural
-        n:3,
+        temperature: 1, 
+        n:1,
         max_tokens: 60,
         messages: [
-          { role: "system", content: "You are a helpful AI that rephrases sentences.only give the rephrased sentence without any additional comment or context" },
+          { role: "system", content: "You are a helpful AI that rephrases sentences.Strictly  give the rephrased sentence without any repettition of the sentence and additional comment or context" },
           { role: "user", content: `Rephrase this: "${sentence}"` }
         ]
       },
@@ -31,7 +31,7 @@ analyzeRoute.post("/", async (req, res) => {
       }
     );
 
-    const rephrasedSentence = response.data.choices.map((choice) => choice.message.content);
+    const rephrasedSentence = response.data.choices[0].message.content.trim();
     res.json({ rephrasedSentence });
   } catch (error) {
     console.error("Error processing sentence:", error);

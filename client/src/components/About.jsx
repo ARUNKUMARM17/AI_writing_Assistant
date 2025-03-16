@@ -7,20 +7,15 @@ const About = () => {
     <div className="container mx-auto px-4 py-12 bg-gray-100 min-h-screen">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 text-blue-600">
-          About AI Writing Assistant
+          About ErrorFree
         </h1>
 
         <div className="bg-white shadow-lg rounded-lg p-8 mb-12">
           <p className="text-xl text-gray-700 mb-6">
-            AI Writing Assistant is a cutting-edge tool designed to elevate your
-            writing experience. Powered by advanced artificial intelligence, our
-            platform offers a suite of features to enhance your writing quality,
-            boost your productivity, and unleash your creativity.
+            ErrorFree is an innovative tool designed to perfect your writing. With advanced AI capabilities, our platform ensures grammatical accuracy, corrects spelling mistakes, and enhances readability.
           </p>
           <p className="text-xl text-gray-700">
-            Whether you're a student, professional writer, or anyone looking to
-            improve their writing, our AI-driven tools are here to support you
-            every step of the way.
+            Whether you're a student, professional, or anyone looking to refine their writing, ErrorFree provides real-time suggestions and improvements tailored to your needs.
           </p>
         </div>
 
@@ -31,33 +26,32 @@ const About = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <FeatureCard
             icon={<FaPencilAlt className="text-blue-500" />}
-            title="Grammar Correction"
-            description="Advanced AI algorithms detect and correct grammatical errors, ensuring your writing is polished and professional."
+            title="Grammar Perfection"
+            description="Our AI detects and corrects grammatical errors, ensuring flawless writing."
           />
           <FeatureCard
             icon={<FaMagic className="text-purple-500" />}
-            title="Spell Check"
-            description="Comprehensive spell-checking capability catches typos and suggests corrections, maintaining the integrity of your text."
+            title="Advanced Spell Check"
+            description="Identifies and corrects spelling mistakes, enhancing the clarity of your text."
           />
           <FeatureCard
             icon={<FaRobot className="text-green-500" />}
-            title="AI-Powered Rephrasing"
-            description="Intelligent rephrasing suggestions help you diversify your language and improve clarity and impact."
+            title="Smart Rewriting"
+            description="Get intelligent rewording suggestions to improve sentence flow and impact."
           />
           <FeatureCard
             icon={<FaChartLine className="text-red-500" />}
-            title="Writing Analytics"
-            description="Gain insights into your writing style and track improvements over time with our detailed analytics."
+            title="Writing Insights"
+            description="Track improvements with writing analytics and refine your style over time."
           />
         </div>
 
         <div className="bg-blue-600 text-white rounded-lg p-8 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Ready to Transform Your Writing?
+            Elevate Your Writing Today!
           </h2>
           <p className="text-xl mb-6">
-            Join thousands of satisfied users who have elevated their writing
-            with AI Writing Assistant.
+            Join thousands of users improving their writing with ErrorFree.
           </p>
           <Link
             to="/write"
